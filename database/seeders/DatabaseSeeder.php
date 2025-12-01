@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -15,14 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
+        User::factory()->admin()->create([
             'name' => 'admin',
             'email' => 'admin@demo',
         ]);
 
-        User::factory()->create([
+        User::factory()->agent()->create([
             'name' => 'agent',
             'email' => 'agent@demo',
         ]);
@@ -31,6 +33,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@demo',
         ]);
+
+        Ticket::factory(10)->create();
 
     }
 }

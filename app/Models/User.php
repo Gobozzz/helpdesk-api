@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-final class User extends Authenticatable
+final class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -35,9 +36,29 @@ final class User extends Authenticatable
         ];
     }
 
+    public function getJWTIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [
+            'email' => $this->email,
+            'name' => $this->name,
+            'role' => $this->role,
+        ];
+    }
+
+    public function refreshSessions(): HasMany
+    {
+        return $this->hasMany(RefreshSession::class);
+    }
+
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
+
 
 }

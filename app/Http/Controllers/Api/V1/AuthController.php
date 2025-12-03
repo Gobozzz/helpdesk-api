@@ -1,0 +1,75 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Helpers\CookieHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Auth\LoginRequest;
+use App\Http\Requests\Api\V1\Auth\LogoutRequest;
+use App\Http\Requests\Api\V1\Auth\RefreshTokenRequest;
+use App\Http\Requests\Api\V1\Auth\RegisterRequest;
+use App\Http\Resources\Api\V1\Auth\MeResource;
+use App\Http\Resources\Api\V1\Auth\TokensResource;
+use App\Services\Auth\AuthServiceContract;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+
+final class AuthController extends Controller
+{
+    public function __construct(
+        readonly private AuthServiceContract $auth,
+    )
+    {
+    }
+
+    public function me(Request $request)
+    {
+        return new MeResource($request->user());
+    }
+
+    public function logout(LogoutRequest $request): Response
+    {
+        $this->auth->logout($request->getRefreshToken());
+        Auth::guard('api')->logout();
+
+        return response()->noContent();
+    }
+
+    public function login(LoginRequest $request): JsonResponse
+    {
+        $data = $request->getDto();
+        $tokens = $this->auth->login($data);
+
+        $cookie = CookieHelper::setRefreshToken($tokens->refresh);
+
+
+        return (new TokensResource($tokens))
+            ->response()
+            ->withCookie($cookie);
+    }
+
+    public function register(RegisterRequest $request): Response
+    {
+        $data = $request->getDto();
+        $this->auth->register($data);
+
+        return response()->noContent();
+    }
+
+    public function refresh(RefreshTokenRequest $request): JsonResponse
+    {
+        $data = $request->getDto();
+        $tokens = $this->auth->refresh($data->refresh_token, $data->fingerprint);
+
+        $cookie = CookieHelper::setRefreshToken($tokens->refresh);
+
+        return (new TokensResource($tokens))
+            ->response()
+            ->withCookie($cookie);
+    }
+
+}

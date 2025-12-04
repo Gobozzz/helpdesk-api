@@ -7,8 +7,10 @@ namespace App\Services\Ticket;
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface TicketServiceContract
 {
     public function create(TicketCreateDTO $data, User $user): Ticket;
+
 }

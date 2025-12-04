@@ -12,9 +12,4 @@ enum UserRole: string
 
     case ADMIN = "admin";
 
-    public static function default(): self
-    {
-        return self::USER;
-    }
-
 }

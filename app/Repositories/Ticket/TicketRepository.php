@@ -7,13 +7,30 @@ namespace App\Repositories\Ticket;
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Enums\TicketEventType;
 use App\Enums\TicketStatus;
+use App\Filters\Groups\TicketGetFiltersGroup;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Repositories\Ticket\TicketRepositoryContract;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 final class TicketRepository implements TicketRepositoryContract
 {
+    const PAGINATE_GET_ALL = 10;
+
+    public function getAll(): LengthAwarePaginator
+    {
+        return Ticket::query()
+            ->filtered(TicketGetFiltersGroup::filters())
+            ->paginate(self::PAGINATE_GET_ALL);
+    }
+
+    public function getAllByUser(User $user): LengthAwarePaginator
+    {
+        return $user
+            ->tickets()
+            ->filtered(TicketGetFiltersGroup::filters())
+            ->paginate(self::PAGINATE_GET_ALL);
+    }
 
     public function create(TicketCreateDTO $data, User $user): Ticket
     {
@@ -38,4 +55,6 @@ final class TicketRepository implements TicketRepositoryContract
             return $ticket;
         });
     }
+
+
 }

@@ -8,6 +8,7 @@ use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
 use App\DTO\JWT\GeneratedTokensDTO;
 use App\DTO\User\UserCreateDTO;
+use App\Enums\UserRole;
 use App\Models\User;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
@@ -35,6 +36,7 @@ final class AuthService implements AuthServiceContract
             name: $data->name,
             email: $data->email,
             password: $this->hasher->make($data->password),
+            role: UserRole::USER,
         );
         $this->users->create($userCreateDto);
     }

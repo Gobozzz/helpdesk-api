@@ -13,14 +13,15 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 
-
     Route::middleware('auth:api')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 
-    Route::middleware(['auth:api', 'role:user'])->group(function () {
-        Route::post('/tickets', [TicketController::class, 'create']);
+    Route::middleware('auth:api')->prefix('/tickets')->group(function () {
+        Route::get('/', [TicketController::class, 'getAll']);
+        Route::post('/', [TicketController::class, 'create'])->middleware('role:user');
     });
+
 
 });

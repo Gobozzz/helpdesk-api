@@ -8,7 +8,6 @@ use App\DTO\Ticket\TicketCreateDTO;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Repositories\Ticket\TicketRepositoryContract;
-use App\Services\Ticket\TicketServiceContract;
 
 final class TicketService implements TicketServiceContract
 {
@@ -23,4 +22,5 @@ final class TicketService implements TicketServiceContract
     {
         return $this->tickets->create($data, $user);
     }
+
 }

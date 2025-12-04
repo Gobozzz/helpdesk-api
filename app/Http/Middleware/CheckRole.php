@@ -7,7 +7,6 @@ namespace App\Http\Middleware;
 use App\Actions\User\UserHasAnyRoleAction;
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +14,7 @@ final class CheckRole
 {
 
     public function __construct(
-        private UserHasAnyRoleAction $hasAnyRole,
+        private readonly UserHasAnyRoleAction $hasAnyRole,
     )
     {
     }

@@ -32,7 +32,7 @@ class TicketFactory extends Factory
             'user_id' => User::query()
                     ->where('role', UserRole::USER)
                     ->inRandomOrder()
-                    ->first() ?? User::factory(1)->create(),
+                    ->first() ?? User::factory()->create(),
         ];
     }
 

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Actions\Ticket\GetUserTicketsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Ticket\ChangeStatusTicketRequest;
+use App\Http\Requests\Api\V1\Ticket\CreateCommentTicketRequest;
 use App\Http\Requests\Api\V1\Ticket\CreateTicketRequest;
 use App\Http\Resources\Api\V1\Ticket\TicketResource;
 use App\Http\Resources\Api\V1\Ticket\TicketHistoryResource;
@@ -63,6 +64,16 @@ final class TicketController extends Controller
 
         $data = $request->getDto();
         $ticket = $this->tickets->setStatus($ticket, $data);
+
+        return new TicketHistoryResource($ticket);
+    }
+
+    public function comment(CreateCommentTicketRequest $request, Ticket $ticket): TicketHistoryResource
+    {
+        Gate::authorize('comment', $ticket);
+
+        $data = $request->getDto();
+        $ticket = $this->tickets->comment($ticket, $data);
 
         return new TicketHistoryResource($ticket);
     }

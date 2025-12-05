@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Ticket;
 
 use App\DTO\Ticket\TicketChangeStatusDTO;
+use App\DTO\Ticket\TicketCommentDTO;
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Enums\TicketEventType;
 use App\Enums\TicketStatus;
@@ -17,6 +18,19 @@ use Illuminate\Support\Facades\DB;
 final class TicketRepository implements TicketRepositoryContract
 {
     const PAGINATE_GET_ALL = 10;
+
+    public function comment(Ticket $ticket, TicketCommentDTO $data): Ticket
+    {
+        $ticket->events()->create([
+            'type' => TicketEventType::COMMENT,
+            'payload' => [
+                'text' => $data->text,
+                'author_id' => $data->user_id,
+            ]
+        ]);
+
+        return $ticket;
+    }
 
     public function setStatus(Ticket $ticket, TicketChangeStatusDTO $data): Ticket
     {

@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/{ticket}/assign', [TicketController::class, 'assign']);
             Route::post('/{ticket}/status', [TicketController::class, 'setStatus']);
         });
+        Route::post('/{ticket}/comment', [TicketController::class, 'comment']);
     });
 
 });

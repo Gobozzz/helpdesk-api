@@ -29,9 +29,19 @@ final class DatabaseSeeder extends Seeder
             'email' => 'agent@demo',
         ]);
 
+        User::factory()->agent()->create([
+            'name' => 'agent_2',
+            'email' => 'agent_2@demo',
+        ]);
+
         User::factory()->create([
             'name' => 'user',
             'email' => 'user@demo',
+        ]);
+
+        User::factory()->create([
+            'name' => 'user_2',
+            'email' => 'user_2@demo',
         ]);
 
         Ticket::factory(10)->create();

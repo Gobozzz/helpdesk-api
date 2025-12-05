@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Ticket;
 
+use App\DTO\Ticket\TicketChangeStatusDTO;
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Enums\TicketEventType;
 use App\Enums\TicketStatus;
@@ -16,6 +17,26 @@ use Illuminate\Support\Facades\DB;
 final class TicketRepository implements TicketRepositoryContract
 {
     const PAGINATE_GET_ALL = 10;
+
+    public function setStatus(Ticket $ticket, TicketChangeStatusDTO $data): Ticket
+    {
+        return DB::transaction(function () use ($ticket, $data) {
+            $ticket->updateOrFail([
+                'status' => $data->status,
+            ]);
+
+            $ticket->events()->create([
+                'type' => TicketEventType::STATUS_CHANGED,
+                'payload' => [
+                    'priority' => $ticket->priority,
+                    'status' => $ticket->status,
+                    'user_id_set_status' => $data->user_id,
+                ]
+            ]);
+
+            return $ticket;
+        });
+    }
 
     public function getAll(): LengthAwarePaginator
     {
@@ -32,21 +53,29 @@ final class TicketRepository implements TicketRepositoryContract
             ->paginate(self::PAGINATE_GET_ALL);
     }
 
-    public function create(TicketCreateDTO $data, User $user): Ticket
+    public function getById(string $id): Ticket
     {
-        return DB::transaction(function () use ($data, $user) {
+        return Ticket::query()
+            ->with(['events' => fn($q) => $q->latest()])
+            ->findOrFail($id);
+    }
+
+    public function create(TicketCreateDTO $data): Ticket
+    {
+        return DB::transaction(function () use ($data) {
             $ticket = Ticket::create([
                 'subject' => $data->subject,
                 'body' => $data->body,
                 'priority' => $data->priority,
                 'status' => TicketStatus::OPEN,
-                'user_id' => $user->getKey(),
+                'user_id' => $data->user_id,
             ]);
 
             $ticket->events()->create([
                 'type' => TicketEventType::CREATED,
                 'payload' => [
                     'subject' => $ticket->subject,
+                    'body' => $data->body,
                     'priority' => $ticket->priority,
                     'author_id' => $ticket->user_id,
                 ]
@@ -56,10 +85,25 @@ final class TicketRepository implements TicketRepositoryContract
         });
     }
 
-    public function getById(string $id): Ticket
+    public function updateAssignId(Ticket $ticket, string|int $assignId): Ticket
     {
-        return Ticket::query()
-            ->with(['events' => fn($q) => $q->latest()])
-            ->findOrFail($id);
+
+        return DB::transaction(function () use ($ticket, $assignId) {
+            $ticket->updateOrFail([
+                'assigned_user_id' => $assignId,
+            ]);
+
+            $ticket->events()->create([
+                'type' => TicketEventType::ASSIGNED,
+                'payload' => [
+                    'priority' => $ticket->priority,
+                    'assigned_user_id' => $ticket->assigned_user_id,
+                ]
+            ]);
+
+            return $ticket;
+        });
     }
+
+
 }

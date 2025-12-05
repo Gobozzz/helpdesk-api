@@ -18,6 +18,13 @@ final class TicketPolicy
         return $user->role === UserRole::ADMIN || $user->role === UserRole::AGENT;
     }
 
+
+    public function setStatus(User $user, Ticket $ticket): bool
+    {
+        return $user->role === UserRole::ADMIN ||
+            ($user->role === UserRole::AGENT && $ticket->assigned_user_id === $user->getKey());
+    }
+
     /**
      * Determine whether the user can view the model.
      */

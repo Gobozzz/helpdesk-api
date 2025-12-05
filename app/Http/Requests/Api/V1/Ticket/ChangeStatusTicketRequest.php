@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Ticket;
 
-use App\DTO\Ticket\TicketCreateDTO;
-use App\Enums\TicketPriority;
+use App\DTO\Ticket\TicketChangeStatusDTO;
+use App\Enums\TicketStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-final class CreateTicketRequest extends FormRequest
+final class ChangeStatusTicketRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,18 +27,14 @@ final class CreateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject' => "required|string|max:255",
-            'body' => "required|string|max:6000",
-            'priority' => ['required', new Enum(TicketPriority::class)],
+            'status' => ["required", new Enum(TicketStatus::class)],
         ];
     }
 
-    public function getDto(): TicketCreateDTO
+    public function getDto(): TicketChangeStatusDTO
     {
-        return new TicketCreateDTO(
-            subject: $this->get('subject'),
-            body: $this->get('body'),
-            priority: $this->get('priority'),
+        return new TicketChangeStatusDTO(
+            status: TicketStatus::from($this->get('status')),
             user_id: $this->user()->getKey(),
         );
     }

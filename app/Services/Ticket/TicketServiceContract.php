@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Services\Ticket;
 
+use App\DTO\Ticket\TicketChangeStatusDTO;
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 interface TicketServiceContract
 {
-    public function create(TicketCreateDTO $data, User $user): Ticket;
+    public function create(TicketCreateDTO $data): Ticket;
+
+    public function assign(Ticket $ticket, User $user): Ticket;
+
+    public function setStatus(Ticket $ticket, TicketChangeStatusDTO $data): Ticket;
 
 }

@@ -22,7 +22,7 @@ final class Ticket extends Model
         'priority',
         'status',
         'user_id',
-        'assigned_agent_id',
+        'assigned_user_id',
     ];
 
     protected function casts(): array
@@ -38,14 +38,19 @@ final class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function assignedAgent(): BelongsTo
+    public function assigned(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_agent_id');
+        return $this->belongsTo(User::class, 'assigned_user_id');
     }
 
     public function events(): HasMany
     {
         return $this->hasMany(TicketEvent::class);
+    }
+
+    public function eventsLatestOrdered(): HasMany
+    {
+        return $this->hasMany(TicketEvent::class)->latest();
     }
 
 }

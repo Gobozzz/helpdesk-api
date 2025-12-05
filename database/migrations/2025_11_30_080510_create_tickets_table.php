@@ -23,7 +23,7 @@ return new class extends Migration {
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->foreignId('assigned_agent_id')
+            $table->foreignId('assigned_user_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();

@@ -22,7 +22,7 @@ class TicketResource extends JsonResource
             "priority" => $this->priority,
             "status" => $this->status,
             "user_id" => $this->user_id,
-            "assigned_agent_id" => $this->assigned_agent_id,
+            "assigned_user_id" => $this->assigned_user_id,
             'created_at' => DateHelper::formatYMD($this->created_at),
         ];
     }

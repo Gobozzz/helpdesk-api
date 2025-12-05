@@ -15,5 +15,7 @@ interface TicketRepositoryContract
 
     public function getAll(): LengthAwarePaginator;
 
+    public function getById(string $id): Ticket;
+
     public function getAllByUser(User $user): LengthAwarePaginator;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\V1\Ticket;
 
+use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,7 @@ class TicketResource extends JsonResource
             "status" => $this->status,
             "user_id" => $this->user_id,
             "assigned_agent_id" => $this->assigned_agent_id,
+            'created_at' => DateHelper::formatYMD($this->created_at),
         ];
     }
 }

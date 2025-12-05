@@ -9,14 +9,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Ticket\CreateTicketRequest;
 use App\Http\Resources\Api\V1\Ticket\TicketResource;
 use App\Http\Resources\Api\V1\Ticket\TicketHistoryResource;
+use App\Repositories\Ticket\TicketRepositoryContract;
 use App\Services\Ticket\TicketServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 
 final class TicketController extends Controller
 {
     public function __construct(
-        private readonly TicketServiceContract $tickets,
+        private readonly TicketServiceContract    $tickets,
+        private readonly TicketRepositoryContract $ticketRepo,
     )
     {
     }
@@ -34,6 +37,15 @@ final class TicketController extends Controller
         $tickets = $getTickets->handle($request->user());
 
         return TicketResource::collection($tickets);
+    }
+
+    public function getById(string $id): TicketHistoryResource
+    {
+        $ticket = $this->ticketRepo->getById($id);
+
+        Gate::authorize('view', $ticket);
+
+        return new TicketHistoryResource($ticket);
     }
 
 }

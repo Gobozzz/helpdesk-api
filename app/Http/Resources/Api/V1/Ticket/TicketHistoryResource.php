@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Api\V1\Ticket;
 
+use App\Helpers\DateHelper;
+use App\Http\Resources\Api\V1\TicketEvent\TicketEventResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +26,8 @@ final class TicketHistoryResource extends JsonResource
             "status" => $this->status,
             "user_id" => $this->user_id,
             "assigned_agent_id" => $this->assigned_agent_id,
-            'events' => $this->events,
+            'events' => TicketEventResource::collection($this->events),
+            'created_at' => DateHelper::formatYMD($this->created_at),
         ];
     }
 }

@@ -56,5 +56,10 @@ final class TicketRepository implements TicketRepositoryContract
         });
     }
 
-
+    public function getById(string $id): Ticket
+    {
+        return Ticket::query()
+            ->with(['events' => fn($q) => $q->latest()])
+            ->findOrFail($id);
+    }
 }

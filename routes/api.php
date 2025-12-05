@@ -21,7 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->prefix('/tickets')->group(function () {
         Route::get('/', [TicketController::class, 'getAll']);
         Route::post('/', [TicketController::class, 'create'])->middleware('role:user');
+        Route::get('/{id}', [TicketController::class, 'getById']);
     });
-
 
 });

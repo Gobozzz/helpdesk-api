@@ -9,14 +9,14 @@ use DateTimeInterface;
 final readonly class DateHelper
 {
 
-    public static function formatYMD(DateTimeInterface $date, string $separator = "."): string
+    public static function formatYMD(DateTimeInterface $date): string
     {
-        return $date->format("Y{$separator}m{$separator}d");
+        return $date->format("Y.m.d");
     }
 
-    public static function formatYMDWithTime(DateTimeInterface $date, string $separator = "."): string
+    public static function formatYMDWithTime(DateTimeInterface $date): string
     {
-        return $date->format("Y{$separator}m{$separator}d H:i");
+        return $date->format("Y.m.d H:i");
     }
 
 }

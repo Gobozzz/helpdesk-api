@@ -1,14 +1,11 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Http\Resources\Api\Auth;
 
-namespace App\Http\Resources\Api\V1\TicketEvent;
-
-use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class TicketEventResource extends JsonResource
+class MeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,9 +16,8 @@ final class TicketEventResource extends JsonResource
     {
         return [
             'id' => $this->getKey(),
-            'type' => $this->type,
-            'payload' => $this->payload,
-            'created_at' => DateHelper::formatYMDWithTime($this->created_at),
+            'email' => $this->email,
+            'name' => $this->name,
         ];
     }
 }

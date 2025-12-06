@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Hash;
+namespace App\Adapters\Hash;
 
 use Illuminate\Support\Facades\Hash;
 

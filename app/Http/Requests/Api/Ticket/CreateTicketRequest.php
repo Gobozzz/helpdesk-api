@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Ticket;
+namespace App\Http\Requests\Api\Ticket;
 
 use App\DTO\Ticket\TicketCreateDTO;
 use App\Enums\TicketPriority;
@@ -27,8 +27,8 @@ final class CreateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject' => "required|string|max:255",
-            'body' => "required|string|max:6000",
+            'subject' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'max:6000'],
             'priority' => ['required', new Enum(TicketPriority::class)],
         ];
     }

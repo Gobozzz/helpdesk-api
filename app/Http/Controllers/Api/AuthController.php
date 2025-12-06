@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Helpers\CookieHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Auth\LoginRequest;
-use App\Http\Requests\Api\V1\Auth\LogoutRequest;
-use App\Http\Requests\Api\V1\Auth\RefreshTokenRequest;
-use App\Http\Requests\Api\V1\Auth\RegisterRequest;
-use App\Http\Resources\Api\V1\Auth\MeResource;
-use App\Http\Resources\Api\V1\Auth\TokensResource;
+use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\LogoutRequest;
+use App\Http\Requests\Api\Auth\RefreshTokenRequest;
+use App\Http\Requests\Api\Auth\RegisterRequest;
+use App\Http\Resources\Api\Auth\MeResource;
+use App\Http\Resources\Api\Auth\TokensResource;
 use App\Services\Auth\AuthServiceContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

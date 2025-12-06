@@ -9,7 +9,7 @@ use App\Exceptions\InvalidFingerprintException;
 use App\Models\RefreshSession;
 use App\Models\User;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
-use App\Services\Hash\HasherContract;
+use App\Adapters\Hash\HasherContract;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;

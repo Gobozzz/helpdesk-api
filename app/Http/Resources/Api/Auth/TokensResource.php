@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\Api\V1\Auth;
+namespace App\Http\Resources\Api\Auth;
 
 use App\DTO\JWT\GeneratedTokensDTO;
 use Illuminate\Http\Request;

@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Auth;
+namespace App\Http\Requests\Api\Auth;
 
-use App\DTO\Auth\RefreshDTO;
-use App\Traits\HasRefreshTokenRequest;
+use App\DTO\Auth\LoginDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-final class RefreshTokenRequest extends FormRequest
+final class LoginRequest extends FormRequest
 {
-    use HasRefreshTokenRequest;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,16 +25,18 @@ final class RefreshTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'refresh_token' => "nullable|string",
-            'fingerprint' => "required|string|max:255",
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required', 'string'],
+            'fingerprint' => ['required', 'string', 'max:255'],
         ];
     }
 
-    public function getDto(): RefreshDTO
+    public function getDto(): LoginDTO
     {
-        return new RefreshDTO(
-            refresh_token: $this->getRefreshToken(),
-            fingerprint: $this->get('fingerprint')
+        return new LoginDTO(
+            email: $this->get('email'),
+            password: $this->get('password'),
+            fingerprint: $this->get('fingerprint'),
         );
     }
 

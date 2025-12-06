@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Adapters\Hash\HasherContract;
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
 use App\DTO\JWT\GeneratedTokensDTO;
@@ -12,7 +13,6 @@ use App\Enums\UserRole;
 use App\Models\User;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
-use App\Services\Hash\HasherContract;
 use App\Services\JWT\JWTServiceContract;
 use Illuminate\Auth\AuthenticationException;
 

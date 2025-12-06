@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Ticket;
+namespace App\Http\Requests\Api\Auth;
 
-use App\DTO\Ticket\TicketChangeStatusDTO;
-use App\Enums\TicketStatus;
+use App\DTO\Auth\RefreshDTO;
+use App\Traits\HasRefreshTokenRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
-final class ChangeStatusTicketRequest extends FormRequest
+final class RefreshTokenRequest extends FormRequest
 {
+    use HasRefreshTokenRequest;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,15 +28,16 @@ final class ChangeStatusTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ["required", new Enum(TicketStatus::class)],
+            'refresh_token' => ['nullable', 'string'],
+            'fingerprint' => ['required', 'string', 'max:255'],
         ];
     }
 
-    public function getDto(): TicketChangeStatusDTO
+    public function getDto(): RefreshDTO
     {
-        return new TicketChangeStatusDTO(
-            status: TicketStatus::from($this->get('status')),
-            user_id: $this->user()->getKey(),
+        return new RefreshDTO(
+            refresh_token: $this->getRefreshToken(),
+            fingerprint: $this->get('fingerprint')
         );
     }
 

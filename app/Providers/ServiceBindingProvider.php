@@ -12,8 +12,8 @@ use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryContract;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceContract;
-use App\Services\Hash\HasherContract;
-use App\Services\Hash\LaravelHasher;
+use App\Adapters\Hash\HasherContract;
+use App\Adapters\Hash\LaravelHasher;
 use App\Services\JWT\JWTServiceContract;
 use App\Services\JWT\JWTServiceTymon;
 use App\Services\Ticket\TicketService;
@@ -35,8 +35,10 @@ final class ServiceBindingProvider extends ServiceProvider
         // Сервисы
         $this->app->bind(AuthServiceContract::class, AuthService::class);
         $this->app->bind(JWTServiceContract::class, JWTServiceTymon::class);
-        $this->app->bind(HasherContract::class, LaravelHasher::class);
         $this->app->bind(TicketServiceContract::class, TicketService::class);
+
+        // Адаптеры
+        $this->app->bind(HasherContract::class, LaravelHasher::class);
     }
 
     /**

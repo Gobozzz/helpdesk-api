@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\Ticket\GetUserTicketsAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Ticket\ChangeStatusTicketRequest;
-use App\Http\Requests\Api\V1\Ticket\CreateCommentTicketRequest;
-use App\Http\Requests\Api\V1\Ticket\CreateTicketRequest;
-use App\Http\Resources\Api\V1\Ticket\TicketResource;
-use App\Http\Resources\Api\V1\Ticket\TicketHistoryResource;
+use App\Http\Requests\Api\Ticket\ChangeStatusTicketRequest;
+use App\Http\Requests\Api\Ticket\CreateCommentTicketRequest;
+use App\Http\Requests\Api\Ticket\CreateTicketRequest;
+use App\Http\Resources\Api\Ticket\TicketHistoryResource;
+use App\Http\Resources\Api\Ticket\TicketResource;
 use App\Models\Ticket;
 use App\Repositories\Ticket\TicketRepositoryContract;
 use App\Services\Ticket\TicketServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Gate;
 
 final class TicketController extends Controller
 {
@@ -46,7 +45,7 @@ final class TicketController extends Controller
     {
         $ticket = $this->ticketRepo->getById($id);
 
-        Gate::authorize('view', $ticket);
+        $this->authorize('view', $ticket);
 
         return new TicketHistoryResource($ticket);
     }
@@ -60,7 +59,7 @@ final class TicketController extends Controller
 
     public function setStatus(ChangeStatusTicketRequest $request, Ticket $ticket): TicketHistoryResource
     {
-        Gate::authorize('setStatus', $ticket);
+        $this->authorize('setStatus', $ticket);
 
         $data = $request->getDto();
         $ticket = $this->tickets->setStatus($ticket, $data);
@@ -70,7 +69,7 @@ final class TicketController extends Controller
 
     public function comment(CreateCommentTicketRequest $request, Ticket $ticket): TicketHistoryResource
     {
-        Gate::authorize('comment', $ticket);
+        $this->authorize('comment', $ticket);
 
         $data = $request->getDto();
         $ticket = $this->tickets->comment($ticket, $data);

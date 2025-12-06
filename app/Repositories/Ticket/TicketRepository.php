@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 final class TicketRepository implements TicketRepositoryContract
 {
-    const PAGINATE_GET_ALL = 10;
+    private const PAGINATE_GET_ALL = 10;
 
     public function comment(Ticket $ticket, TicketCommentDTO $data): Ticket
     {

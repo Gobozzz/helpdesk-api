@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Auth;
+declare(strict_types=1);
 
+namespace App\Http\Requests\Api\Auth;
+
+use App\Traits\HasRefreshTokenRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MeResource extends FormRequest
+final class LogoutRequest extends FormRequest
 {
+    use HasRefreshTokenRequest;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +27,8 @@ class MeResource extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'refresh_token' => ["nullable", "string"],
         ];
     }
+
 }

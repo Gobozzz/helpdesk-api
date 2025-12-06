@@ -10,7 +10,5 @@ final readonly class RegisterDTO
         public string $name,
         public string $email,
         public string $password,
-    )
-    {
-    }
+    ) {}
 }

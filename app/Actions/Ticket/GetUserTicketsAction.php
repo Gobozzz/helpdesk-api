@@ -12,9 +12,7 @@ final class GetUserTicketsAction
 {
     public function __construct(
         private readonly TicketRepositoryContract $tickets,
-    )
-    {
-    }
+    ) {}
 
     public function handle(User $user)
     {
@@ -26,5 +24,4 @@ final class GetUserTicketsAction
 
         return $tickets;
     }
-
 }

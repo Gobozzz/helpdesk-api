@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Adapters\Hash\HasherContract;
+use App\Adapters\Hash\LaravelHasher;
 use App\Repositories\RefreshSession\RefreshSessionRepository;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
 use App\Repositories\Ticket\TicketRepository;
@@ -12,8 +14,6 @@ use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryContract;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceContract;
-use App\Adapters\Hash\HasherContract;
-use App\Adapters\Hash\LaravelHasher;
 use App\Services\JWT\JWTServiceContract;
 use App\Services\JWT\JWTServiceTymon;
 use App\Services\Ticket\TicketService;

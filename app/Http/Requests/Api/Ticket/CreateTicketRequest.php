@@ -42,5 +42,4 @@ final class CreateTicketRequest extends FormRequest
             user_id: $this->user()->getKey(),
         );
     }
-
 }

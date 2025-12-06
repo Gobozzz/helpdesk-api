@@ -12,7 +12,6 @@ class TicketEvent extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'ticket_id',
         'type',
@@ -26,5 +25,4 @@ class TicketEvent extends Model
             'payload' => 'object',
         ];
     }
-
 }

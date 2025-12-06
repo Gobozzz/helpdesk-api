@@ -13,12 +13,9 @@ use App\Repositories\Ticket\TicketRepositoryContract;
 
 final class TicketService implements TicketServiceContract
 {
-
     public function __construct(
         private readonly TicketRepositoryContract $tickets,
-    )
-    {
-    }
+    ) {}
 
     public function create(TicketCreateDTO $data): Ticket
     {
@@ -39,5 +36,4 @@ final class TicketService implements TicketServiceContract
     {
         return $this->tickets->comment($ticket, $data);
     }
-
 }

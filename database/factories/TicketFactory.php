@@ -30,9 +30,9 @@ class TicketFactory extends Factory
             'priority' => TicketPriority::NORMAL,
             'status' => TicketStatus::OPEN,
             'user_id' => User::query()
-                    ->where('role', UserRole::USER)
-                    ->inRandomOrder()
-                    ->first() ?? User::factory()->create(),
+                ->where('role', UserRole::USER)
+                ->inRandomOrder()
+                ->first() ?? User::factory()->create(),
         ];
     }
 
@@ -45,9 +45,8 @@ class TicketFactory extends Factory
                     'subject' => $ticket->subject,
                     'priority' => $ticket->priority,
                     'author_id' => $ticket->user_id,
-                ]
+                ],
             ]);
         });
     }
-
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filters\Groups;
 
-
 use App\Filters\AssignedTicketFilter;
 use App\Filters\BaseFilter;
 

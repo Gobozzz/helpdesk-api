@@ -27,7 +27,7 @@ final class ChangeStatusTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ["required", new Enum(TicketStatus::class)],
+            'status' => ['required', new Enum(TicketStatus::class)],
         ];
     }
 
@@ -38,5 +38,4 @@ final class ChangeStatusTicketRequest extends FormRequest
             user_id: $this->user()->getKey(),
         );
     }
-
 }

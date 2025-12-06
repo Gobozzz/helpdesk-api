@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class RefreshSession extends Model
 {
-
     protected $fillable = [
         'user_id',
         'refresh_token',
@@ -22,7 +21,7 @@ final class RefreshSession extends Model
     protected function casts()
     {
         return [
-            'expires_at' => "datetime"
+            'expires_at' => 'datetime',
         ];
     }
 
@@ -45,5 +44,4 @@ final class RefreshSession extends Model
     {
         return $this->expires_at <= Carbon::now();
     }
-
 }

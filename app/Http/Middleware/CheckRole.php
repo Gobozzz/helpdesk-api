@@ -12,17 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CheckRole
 {
-
     public function __construct(
         private readonly UserHasAnyRoleAction $hasAnyRole,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
@@ -32,6 +29,6 @@ final class CheckRole
             return $next($request);
         }
 
-        throw new AuthorizationException();
+        throw new AuthorizationException;
     }
 }

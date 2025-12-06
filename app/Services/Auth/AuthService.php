@@ -21,13 +21,11 @@ final class AuthService implements AuthServiceContract
     const MAX_AUTH_SESSIONS = 5;
 
     public function __construct(
-        private readonly UserRepositoryContract           $users,
+        private readonly UserRepositoryContract $users,
         private readonly RefreshSessionRepositoryContract $refreshSessions,
-        private readonly HasherContract                   $hasher,
-        private readonly JWTServiceContract               $jwt,
-    )
-    {
-    }
+        private readonly HasherContract $hasher,
+        private readonly JWTServiceContract $jwt,
+    ) {}
 
     public function register(RegisterDTO $data): void
     {
@@ -45,7 +43,7 @@ final class AuthService implements AuthServiceContract
     {
         $user = $this->users->getByEmail($data->email);
 
-        if ($user === null || !$this->checkPassword($data->password, $user->password)) {
+        if ($user === null || ! $this->checkPassword($data->password, $user->password)) {
             throw new AuthenticationException('Invalid credentials.');
         }
 
@@ -84,5 +82,4 @@ final class AuthService implements AuthServiceContract
     {
         return $this->hasher->verify($password, $hashedPassword);
     }
-
 }

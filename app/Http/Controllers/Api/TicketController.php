@@ -20,11 +20,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 final class TicketController extends Controller
 {
     public function __construct(
-        private readonly TicketServiceContract    $tickets,
+        private readonly TicketServiceContract $tickets,
         private readonly TicketRepositoryContract $ticketRepo,
-    )
-    {
-    }
+    ) {}
 
     public function create(CreateTicketRequest $request): TicketHistoryResource
     {
@@ -76,5 +74,4 @@ final class TicketController extends Controller
 
         return new TicketHistoryResource($ticket);
     }
-
 }

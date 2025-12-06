@@ -26,7 +26,7 @@ final class TicketRepository implements TicketRepositoryContract
             'payload' => [
                 'text' => $data->text,
                 'author_id' => $data->user_id,
-            ]
+            ],
         ]);
 
         return $ticket;
@@ -45,7 +45,7 @@ final class TicketRepository implements TicketRepositoryContract
                     'priority' => $ticket->priority,
                     'status' => $ticket->status,
                     'user_id_set_status' => $data->user_id,
-                ]
+                ],
             ]);
 
             return $ticket;
@@ -70,7 +70,7 @@ final class TicketRepository implements TicketRepositoryContract
     public function getById(string $id): Ticket
     {
         return Ticket::query()
-            ->with(['events' => fn($q) => $q->latest()])
+            ->with(['events' => fn ($q) => $q->latest()])
             ->findOrFail($id);
     }
 
@@ -92,7 +92,7 @@ final class TicketRepository implements TicketRepositoryContract
                     'body' => $data->body,
                     'priority' => $ticket->priority,
                     'author_id' => $ticket->user_id,
-                ]
+                ],
             ]);
 
             return $ticket;
@@ -112,12 +112,10 @@ final class TicketRepository implements TicketRepositoryContract
                 'payload' => [
                     'priority' => $ticket->priority,
                     'assigned_user_id' => $ticket->assigned_user_id,
-                ]
+                ],
             ]);
 
             return $ticket;
         });
     }
-
-
 }

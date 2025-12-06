@@ -21,10 +21,8 @@ use Illuminate\Support\Facades\Auth;
 final class AuthController extends Controller
 {
     public function __construct(
-        readonly private AuthServiceContract $auth,
-    )
-    {
-    }
+        private readonly AuthServiceContract $auth,
+    ) {}
 
     public function me(Request $request)
     {
@@ -45,7 +43,6 @@ final class AuthController extends Controller
         $tokens = $this->auth->login($data);
 
         $cookie = CookieHelper::setRefreshToken($tokens->refresh);
-
 
         return (new TokensResource($tokens))
             ->response()
@@ -71,5 +68,4 @@ final class AuthController extends Controller
             ->response()
             ->withCookie($cookie);
     }
-
 }

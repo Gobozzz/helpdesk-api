@@ -10,7 +10,5 @@ final readonly class LoginDTO
         public string $email,
         public string $password,
         public string $fingerprint,
-    )
-    {
-    }
+    ) {}
 }

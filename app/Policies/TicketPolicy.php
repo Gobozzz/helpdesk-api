@@ -10,7 +10,6 @@ use App\Models\User;
 
 final class TicketPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->role === UserRole::ADMIN || $user->role === UserRole::AGENT;
@@ -33,5 +32,4 @@ final class TicketPolicy
         return $user->role === UserRole::ADMIN || $user->role === UserRole::AGENT ||
             $ticket->user_id === $user->getKey();
     }
-
 }

@@ -10,8 +10,6 @@ final readonly class TicketChangeStatusDTO
 {
     public function __construct(
         public TicketStatus $status,
-        public string|int   $user_id,
-    )
-    {
-    }
+        public string|int $user_id,
+    ) {}
 }

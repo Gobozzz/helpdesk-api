@@ -39,5 +39,4 @@ final class RegisterRequest extends FormRequest
             password: $this->get('password'),
         );
     }
-
 }

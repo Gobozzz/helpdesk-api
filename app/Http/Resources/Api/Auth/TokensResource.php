@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 final class TokensResource extends JsonResource
 {
-
     public function __construct(GeneratedTokensDTO $resource)
     {
         parent::__construct($resource);

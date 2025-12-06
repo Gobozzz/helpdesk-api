@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum TicketEventType: string
 {
-    case ASSIGNED = "assigned";
-    case STATUS_CHANGED = "status_changed";
-    case CREATED = "created";
-    case COMMENT = "comment";
+    case ASSIGNED = 'assigned';
+    case STATUS_CHANGED = 'status_changed';
+    case CREATED = 'created';
+    case COMMENT = 'comment';
 }

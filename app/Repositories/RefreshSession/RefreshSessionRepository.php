@@ -10,14 +10,13 @@ use Carbon\Carbon;
 
 final class RefreshSessionRepository implements RefreshSessionRepositoryContract
 {
-
     public function create(User $user, string $token, string $fingerprint): RefreshSession
     {
         return RefreshSession::create([
-            "user_id" => $user->getKey(),
-            "refresh_token" => $token,
-            "fingerprint" => $fingerprint,
-            "expires_at" => Carbon::now()->addMinutes(config('jwt.refresh_ttl')),
+            'user_id' => $user->getKey(),
+            'refresh_token' => $token,
+            'fingerprint' => $fingerprint,
+            'expires_at' => Carbon::now()->addMinutes(config('jwt.refresh_ttl')),
         ]);
     }
 

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 
 class BaseFilter implements FilterContract
 {
-    protected string $prefix_filter_request = "filter_";
+    protected string $prefix_filter_request = 'filter_';
 
     protected string $field;
 
     protected string $key;
 
-    protected string $operator = "=";
+    protected string $operator = '=';
 
     protected ?string $relatedField = null;
 
@@ -23,9 +23,10 @@ class BaseFilter implements FilterContract
 
     public static function make(string $field, string $key): static
     {
-        $filter = new static();
+        $filter = new static;
         $filter->field = $field;
         $filter->key = $key;
+
         return $filter;
     }
 
@@ -57,35 +58,37 @@ class BaseFilter implements FilterContract
 
     protected function getRequestValue(): mixed
     {
-        return request($this->prefix_filter_request . $this->key);
+        return request($this->prefix_filter_request.$this->key);
     }
 
     public function operator(string $operator): static
     {
         $this->operator = $operator;
+
         return $this;
     }
 
     public function customQuery(Closure $customQuery): static
     {
         $this->customQuery = $customQuery;
+
         return $this;
     }
 
     protected function hasCustomQuery(): bool
     {
-        return !is_null($this->customQuery);
+        return ! is_null($this->customQuery);
     }
 
     protected function relatedField(string $relatedField): static
     {
         $this->relatedField = $relatedField;
+
         return $this;
     }
 
     protected function hasRelatedQuery(): bool
     {
-        return !is_null($this->relatedField);
+        return ! is_null($this->relatedField);
     }
-
 }

@@ -9,8 +9,5 @@ final readonly class GeneratedTokensDTO
     public function __construct(
         public string $access,
         public string $refresh,
-    )
-    {
-
-    }
+    ) {}
 }

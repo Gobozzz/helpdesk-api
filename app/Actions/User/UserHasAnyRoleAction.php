@@ -9,9 +9,7 @@ use App\Models\User;
 final class UserHasAnyRoleAction
 {
     /**
-     * @param User $user
-     * @param string[] $roles
-     * @return bool
+     * @param  string[]  $roles
      */
     public function handle(User $user, array $roles): bool
     {

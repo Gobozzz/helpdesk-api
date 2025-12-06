@@ -7,11 +7,9 @@ namespace App\DTO\Ticket;
 final readonly class TicketCreateDTO
 {
     public function __construct(
-        public string     $subject,
-        public string     $body,
-        public string     $priority,
+        public string $subject,
+        public string $body,
+        public string $priority,
         public string|int $user_id,
-    )
-    {
-    }
+    ) {}
 }

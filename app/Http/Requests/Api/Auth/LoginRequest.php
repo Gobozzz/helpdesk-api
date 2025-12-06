@@ -39,5 +39,4 @@ final class LoginRequest extends FormRequest
             fingerprint: $this->get('fingerprint'),
         );
     }
-
 }

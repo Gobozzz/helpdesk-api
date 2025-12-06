@@ -36,5 +36,4 @@ final class CreateCommentTicketRequest extends FormRequest
             user_id: $this->user()->getKey(),
         );
     }
-
 }

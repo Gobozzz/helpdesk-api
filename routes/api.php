@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\TicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    Route::get('/ping', fn() => response()->json(['ok' => true]));
+    Route::get('/ping', fn () => response()->json(['ok' => true]));
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);

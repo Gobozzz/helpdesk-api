@@ -14,9 +14,10 @@ trait HasRefreshTokenRequest
     public function getRefreshToken(): string
     {
         $token = request()->cookie('refresh_token') ?? request()->get('refresh_token');
-        if (!is_string($token)) {
+        if (! is_string($token)) {
             throw new AuthenticationException('Refresh token missing.');
         }
+
         return $token;
     }
 }

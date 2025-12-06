@@ -40,5 +40,4 @@ final class RefreshTokenRequest extends FormRequest
             fingerprint: $this->get('fingerprint')
         );
     }
-
 }

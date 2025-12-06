@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\JWT;
 
+use App\Adapters\Hash\HasherContract;
 use App\DTO\JWT\GeneratedTokensDTO;
 use App\Exceptions\InvalidFingerprintException;
 use App\Models\RefreshSession;
 use App\Models\User;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
-use App\Adapters\Hash\HasherContract;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,10 +18,8 @@ final class JWTServiceTymon implements JWTServiceContract
 {
     public function __construct(
         private readonly RefreshSessionRepositoryContract $refreshSessions,
-        private readonly HasherContract                   $hasher,
-    )
-    {
-    }
+        private readonly HasherContract $hasher,
+    ) {}
 
     public function generateTokens(User $user, string $fingerprint): GeneratedTokensDTO
     {
@@ -56,10 +54,10 @@ final class JWTServiceTymon implements JWTServiceContract
     private function checkRefreshSessionBeforeRefreshTokens(RefreshSession $refreshSession, string $fingerprint): void
     {
         if ($refreshSession->isExpired()) {
-            throw new TokenExpiredException("Refresh is expired");
+            throw new TokenExpiredException('Refresh is expired');
         }
         if ($refreshSession->fingerprint !== $fingerprint) {
-            throw new InvalidFingerprintException();
+            throw new InvalidFingerprintException;
         }
     }
 

@@ -9,6 +9,6 @@ class InvalidFingerprintException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Invalid fingerprint", Response::HTTP_FORBIDDEN);
+        parent::__construct('Invalid fingerprint', Response::HTTP_FORBIDDEN);
     }
 }

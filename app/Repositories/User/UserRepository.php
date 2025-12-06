@@ -23,5 +23,4 @@ final class UserRepository implements UserRepositoryContract
     {
         return User::query()->where('email', $email)->first();
     }
-
 }

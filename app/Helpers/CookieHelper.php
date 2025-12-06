@@ -12,8 +12,7 @@ final class CookieHelper
 
     public static function setRefreshToken(
         string $refreshToken,
-    ): Cookie
-    {
+    ): Cookie {
 
         return cookie(
             name: self::REFRESH_TOKEN_COOKIE,
@@ -27,6 +26,4 @@ final class CookieHelper
             sameSite: 'strict'
         );
     }
-    
-
 }

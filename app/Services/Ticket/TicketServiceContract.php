@@ -19,5 +19,4 @@ interface TicketServiceContract
     public function setStatus(Ticket $ticket, TicketChangeStatusDTO $data): Ticket;
 
     public function comment(Ticket $ticket, TicketCommentDTO $data): Ticket;
-
 }

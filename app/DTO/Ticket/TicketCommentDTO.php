@@ -7,9 +7,7 @@ namespace App\DTO\Ticket;
 final readonly class TicketCommentDTO
 {
     public function __construct(
-        public string     $text,
+        public string $text,
         public string|int $user_id,
-    )
-    {
-    }
+    ) {}
 }

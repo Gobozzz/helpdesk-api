@@ -20,5 +20,6 @@ interface RefreshSessionRepositoryContract
     public function deleteByToken(string $refresh_token);
 
     public function deleteAll(User $user): void;
+
     public function deleteByFingerprint(string $fingerprint): void;
 }

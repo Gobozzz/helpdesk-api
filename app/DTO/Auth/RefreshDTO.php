@@ -9,7 +9,5 @@ final readonly class RefreshDTO
     public function __construct(
         public string $refresh_token,
         public string $fingerprint,
-    )
-    {
-    }
+    ) {}
 }

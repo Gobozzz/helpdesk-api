@@ -52,5 +52,4 @@ final class Ticket extends Model
     {
         return $this->hasMany(TicketEvent::class)->latest();
     }
-
 }

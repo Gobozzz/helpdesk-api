@@ -9,18 +9,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait HasFiltered
 {
-
     /**
-     * @param Builder $query
-     * @param FilterContract[] $filters
-     * @return Builder
+     * @param  FilterContract[]  $filters
      */
     public function scopeFiltered(Builder $query, array $filters): Builder
     {
         foreach ($filters as $filter) {
             $query = $filter->apply($query);
         }
+
         return $query;
     }
-
 }

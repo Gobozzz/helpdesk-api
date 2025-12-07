@@ -11,4 +11,8 @@ interface FilterContract
     public function apply(Builder $query): Builder;
 
     public static function make(string $field, string $key): static;
+
+    public function getRequestValue(): mixed;
+
+    public function getRequestedKey(): string;
 }

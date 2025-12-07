@@ -13,9 +13,7 @@ final class SendTicketEmailJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly string|int $ticketId, private readonly TicketEventType $eventType)
-    {
-    }
+    public function __construct(private readonly string|int $ticketId, private readonly TicketEventType $eventType) {}
 
     public function handle(): void
     {

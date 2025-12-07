@@ -17,9 +17,7 @@ final class TicketService implements TicketServiceContract
 {
     public function __construct(
         private readonly TicketRepositoryContract $tickets,
-    )
-    {
-    }
+    ) {}
 
     public function create(TicketCreateDTO $data): Ticket
     {

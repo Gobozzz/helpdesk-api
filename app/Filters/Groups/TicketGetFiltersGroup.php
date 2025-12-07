@@ -7,7 +7,7 @@ namespace App\Filters\Groups;
 use App\Filters\AssignedTicketFilter;
 use App\Filters\BaseFilter;
 
-final class TicketGetFiltersGroup implements FilterGroupContract
+final class TicketGetFiltersGroup extends BaseFilterGroup implements FilterGroupContract
 {
     public static function filters(): array
     {

@@ -12,12 +12,18 @@ use App\Enums\TicketStatus;
 use App\Filters\Groups\TicketGetFiltersGroup;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Services\Cache\TicketCacheManager;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 final class TicketRepository implements TicketRepositoryContract
 {
-    private const PAGINATE_GET_ALL = 10;
+    public function __construct(
+        private readonly TicketCacheManager $cache,
+    ) {}
+
+    private const PAGINATE_GET_ALL = 3;
 
     public function comment(Ticket $ticket, TicketCommentDTO $data): Ticket
     {
@@ -28,6 +34,8 @@ final class TicketRepository implements TicketRepositoryContract
                 'author_id' => $data->user_id,
             ],
         ]);
+
+        $this->cache->invalidate($ticket);
 
         return $ticket;
     }
@@ -48,30 +56,45 @@ final class TicketRepository implements TicketRepositoryContract
                 ],
             ]);
 
+            $this->cache->invalidate($ticket);
+
             return $ticket;
         });
     }
 
     public function getAll(): LengthAwarePaginator
     {
-        return Ticket::query()
-            ->filtered(TicketGetFiltersGroup::filters())
-            ->paginate(self::PAGINATE_GET_ALL);
+        return Cache::tags($this->cache->allTag())
+            ->remember($this->cache->allKey(TicketGetFiltersGroup::getHashFilters()),
+                $this->cache::TTL_CACHE_TICKET, function () {
+                    return Ticket::query()
+                        ->filtered(TicketGetFiltersGroup::filters())
+                        ->orderBy('id', 'ASC')
+                        ->paginate(self::PAGINATE_GET_ALL);
+                });
     }
 
     public function getAllByUser(User $user): LengthAwarePaginator
     {
-        return $user
-            ->tickets()
-            ->filtered(TicketGetFiltersGroup::filters())
-            ->paginate(self::PAGINATE_GET_ALL);
+        return Cache::tags($this->cache->allByUserTag($user->getKey()))
+            ->remember($this->cache->allByUserKey(TicketGetFiltersGroup::getHashFilters(), $user->getKey()),
+                $this->cache::TTL_CACHE_TICKET, function () use ($user) {
+                    return $user
+                        ->tickets()
+                        ->filtered(TicketGetFiltersGroup::filters())
+                        ->orderBy('id', 'ASC')
+                        ->paginate(self::PAGINATE_GET_ALL);
+                });
     }
 
     public function getById(string $id): Ticket
     {
-        return Ticket::query()
-            ->with(['events' => fn ($q) => $q->latest()])
-            ->findOrFail($id);
+        return Cache::remember($this->cache->byIdKey($id),
+            $this->cache::TTL_CACHE_TICKET, function () use ($id) {
+                return Ticket::query()
+                    ->with('eventsLatestOrdered')
+                    ->findOrFail($id);
+            });
     }
 
     public function create(TicketCreateDTO $data): Ticket
@@ -95,13 +118,14 @@ final class TicketRepository implements TicketRepositoryContract
                 ],
             ]);
 
+            $this->cache->invalidate($ticket);
+
             return $ticket;
         });
     }
 
     public function updateAssignId(Ticket $ticket, string|int $assignId): Ticket
     {
-
         return DB::transaction(function () use ($ticket, $assignId) {
             $ticket->updateOrFail([
                 'assigned_user_id' => $assignId,
@@ -114,6 +138,8 @@ final class TicketRepository implements TicketRepositoryContract
                     'assigned_user_id' => $ticket->assigned_user_id,
                 ],
             ]);
+
+            $this->cache->invalidate($ticket);
 
             return $ticket;
         });

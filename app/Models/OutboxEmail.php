@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 final class OutboxEmail extends Model
 {
     protected $fillable = [
-        "ticket_id",
-        "event_type",
+        'ticket_id',
+        'event_type',
     ];
 
     protected function casts(): array
@@ -20,5 +20,4 @@ final class OutboxEmail extends Model
             'event_type' => TicketEventType::class,
         ];
     }
-
 }

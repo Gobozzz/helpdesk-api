@@ -56,9 +56,14 @@ class BaseFilter implements FilterContract
 
     }
 
-    protected function getRequestValue(): mixed
+    public function getRequestValue(): mixed
     {
-        return request($this->prefix_filter_request.$this->key);
+        return request($this->getRequestedKey());
+    }
+
+    public function getRequestedKey(): string
+    {
+        return $this->prefix_filter_request.$this->key;
     }
 
     public function operator(string $operator): static

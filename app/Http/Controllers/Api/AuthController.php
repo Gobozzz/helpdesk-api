@@ -24,7 +24,7 @@ final class AuthController extends Controller
         private readonly AuthServiceContract $auth,
     ) {}
 
-    public function me(Request $request)
+    public function me(Request $request): MeResource
     {
         return new MeResource($request->user());
     }

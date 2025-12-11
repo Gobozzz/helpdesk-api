@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\MessengerLogger;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -51,6 +52,12 @@ return [
     */
 
     'channels' => [
+
+        'messenger' => [
+            'driver' => 'monolog',
+            'handler' => MessengerLogger::class,
+            'level' => env('MESSENGER_LOG_LEVEL', 'error'),
+        ],
 
         'stack' => [
             'driver' => 'stack',

@@ -6,6 +6,10 @@ namespace App\Providers;
 
 use App\Adapters\Hash\HasherContract;
 use App\Adapters\Hash\LaravelHasher;
+use App\Adapters\Logger\LoggerContract;
+use App\Adapters\Logger\LoggerFacade;
+use App\Adapters\Logger\Messenger\MessengerLogContract;
+use App\Adapters\Logger\Messenger\TelegramLogger;
 use App\Repositories\RefreshSession\RefreshSessionRepository;
 use App\Repositories\RefreshSession\RefreshSessionRepositoryContract;
 use App\Repositories\Ticket\TicketRepository;
@@ -39,6 +43,8 @@ final class ServiceBindingProvider extends ServiceProvider
 
         // Адаптеры
         $this->app->bind(HasherContract::class, LaravelHasher::class);
+        $this->app->bind(LoggerContract::class, LoggerFacade::class);
+        $this->app->bind(MessengerLogContract::class, TelegramLogger::class);
     }
 
     /**

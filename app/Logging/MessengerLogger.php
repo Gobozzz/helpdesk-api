@@ -14,7 +14,7 @@ final class MessengerLogger extends AbstractProcessingHandler
     private MessengerLogContract $messengerLog;
 
     public function __construct(
-        $level = Level::Debug,
+        Level $level = Level::Debug,
         bool $bubble = true,
     ) {
         parent::__construct($level, $bubble);
